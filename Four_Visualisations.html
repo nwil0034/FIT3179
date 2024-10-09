@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Multiple Visualisations | An Example</title>
+  <!-- Import Vega & Vega-Lite (from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <!-- Import pure.css -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+    integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- CSS file -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      padding: 20px;
+    }
+
+    .vis-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .description {
+      padding: 10px;
+    }
+
+    .description-left {
+      text-align: left;
+    }
+
+    .description-right {
+      text-align: right;
+    }
+
+    .small-font {
+      font-size: 0.8em;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- Header Section -->
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <h1>Multiple Visualisations</h1>
+        <p>This page demonstrates how you can use pure.css grid for your layout.</p>
+      </div>
+    </div>
+    <!-- End Header Section -->
+
+    <!-- Visualization 1: Geographical Map -->
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <div class="description description-left">
+          <h2>Geographical Map</h2>
+          <p>This map visualizes the geographical data based on state populations.</p>
+        </div>
+      </div>
+      <div class="pure-u-1-2">
+        <div id="vis1" class="vis-container"></div>
+      </div>
+    </div>
+    <!-- End Visualization 1 -->
+
+    <!-- Visualization 2: Bar Chart -->
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <div class="description description-left">
+          <h2>Population Bar Chart</h2>
+          <p>This bar chart shows the population of each state with interactive highlights.</p>
+        </div>
+      </div>
+      <div class="pure-u-1-2">
+        <div id="vis2" class="vis-container"></div>
+      </div>
+    </div>
+    <!-- End Visualization 2 -->
+
+    <!-- Visualization 3: Line Chart -->
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <div class="description description-left">
+          <h2>Population Prediction Line Chart</h2>
+          <p>This line chart predicts future population trends in Australia.</p>
+        </div>
+      </div>
+      <div class="pure-u-1-2">
+        <div id="vis3" class="vis-container"></div>
+      </div>
+    </div>
+    <!-- End Visualization 3 -->
+
+    <!-- Visualization 4: Pie Chart -->
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <div class="description description-left">
+          <h2>Great Ocean Road Expenditure Pie Chart</h2>
+          <p>This pie chart represents the money spent visiting the Great Ocean Road over the years.</p>
+        </div>
+      </div>
+      <div class="pure-u-1-2">
+        <div id="vis4" class="vis-container"></div>
+      </div>
+    </div>
+    <!-- End Visualization 4 -->
+
+    <!-- Footer Section -->
+    <div class="pure-g">
+      <div class="pure-u-1-1 small-font">
+        <p>This visualisation is created by <a href="https://fit3179.github.io/Vega-Lite/" target="_blank">FIT3179
+            Teaching Team</a>. The datasource is <a href="#" target="_blank">some data repository online</a>.</p>
+      </div>
+    </div>
+    <!-- End Footer Section -->
+
+  </div> <!-- End Page -->
+
+  <!-- Vega-Lite Specifications and Embedding -->
+  <script type="text/javascript">
+    // Visualization 1: Geographical Map
+    const specVis1 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "width": "container",
+      "height": 300,
+      "data": {
+        "url": "https://raw.githubusercontent.com/nwil0034/FIT3179/refs/heads/main/FIT3179_MapGraphData.csv",
+        "format": {
+          "type": "csv"
+        }
+      },
+      "transform": [
+        {
+          "lookup": "id",
+          "from": {
+            "data": {
+              "url": "./states.topojson", // Replace with your TopoJSON file path
+              "format": {
+                "type": "topojson",
+                "feature": "states"
+              }
+            },
+            "key": "id"
+          },
+          "as": "geo"
+        }
+      ],
+      "projection": { "type": "albersUsa" },
+      "mark": "geoshape",
+      "encoding": {
+        "shape": { "field": "geo", "type": "geojson" },
+        "color": { "field": "pct", "type": "quantitative", "title": "Percentage" },
+        "tooltip": [
+          { "field": "id", "type": "nominal", "title": "State ID" },
+          { "field": "pct", "type": "quantitative", "title": "Percentage" }
+        ]
+      }
+    };
+
+    // Visualization 2: Population Bar Chart
+    const specVis2 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "Test Bar Chart - Population Each State",
+      "data": {
+        "values": [
+          { "States": "NSW", "Population": 8469.6, "color": "red" },
+          { "States": "VIC", "Population": 6959.2, "color": "blue" },
+          { "States": "QLD", "Population": 5560.5, "color": "green" },
+          { "States": "SA", "Population": 1873.8, "color": "orange" },
+          { "States": "WA", "Population": 2951.6, "color": "purple" },
+          { "States": "TAS", "Population": 575.7, "color": "#e7ba52" },
+          { "States": "NT", "Population": 254.3, "color": "gray" },
+          { "States": "ACT", "Population": 472.8, "color": "#9467bd" }
+        ]
+      },
+      "params": [
+        {
+          "name": "highlight",
+          "select": { "type": "point", "on": "mouseover" }
+        },
+        { "name": "select", "select": "point" }
+      ],
+      "layer": [
+        {
+          "mark": "bar"
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "bottom",
+            "dy": -5
+          },
+          "encoding": {
+            "text": { "field": "Population", "type": "quantitative" }
+          }
+        }
+      ],
+      "encoding": {
+        "x": { "field": "States", "type": "nominal", "axis": { "labelAngle": 0 }, "title": "State" },
+        "y": { "field": "Population", "type": "quantitative", "title": "Population (Thousands)" }
+      },
+      "color": {
+        "field": "States",
+        "type": "nominal",
+        "legend": null
+      }
+    };
+
+    // Visualization 3: Population Prediction Line Chart
+    const specVis3 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "Series Prediction of Future Population In Australia",
+      "data": {
+        "values": [
+          { "Year": 2022, "High Series": 26013061, "Medium Series": 26013061, "Low Series": 26013061 },
+          { "Year": 2023, "High Series": 26588782, "Medium Series": 26535367, "Low Series": 26482176 },
+          { "Year": 2024, "High Series": 27095255, "Medium Series": 26971766, "Low Series": 26869019 },
+          { "Year": 2025, "High Series": 27594464, "Medium Series": 27395011, "Low Series": 27235315 },
+          { "Year": 2026, "High Series": 28086207, "Medium Series": 27805684, "Low Series": 27580551 },
+          { "Year": 2027, "High Series": 28570009, "Medium Series": 28201094, "Low Series": 27902964 },
+          { "Year": 2028, "High Series": 29042054, "Medium Series": 28581272, "Low Series": 28204391 },
+          { "Year": 2029, "High Series": 29500502, "Medium Series": 28946317, "Low Series": 28488756 },
+          { "Year": 2030, "High Series": 29944100, "Medium Series": 29294970, "Low Series": 28754774 },
+          { "Year": 2031, "High Series": 30373698, "Medium Series": 29628141, "Low Series": 29003323 },
+          { "Year": 2032, "High Series": 30788281, "Medium Series": 29944139, "Low Series": 29232681 },
+          { "Year": 2033, "High Series": 31200900, "Medium Series": 30255082, "Low Series": 29455940 },
+          { "Year": 2034, "High Series": 31611780, "Medium Series": 30561214, "Low Series": 29673319 },
+          { "Year": 2035, "High Series": 32021148, "Medium Series": 30862815, "Low Series": 29885092 }
+        ]
+      },
+      "transform": [
+        {
+          "fold": ["High Series", "Medium Series", "Low Series"],
+          "as": ["Series", "Population"]
+        }
+      ],
+      "mark": "line",
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "title": "Year"
+        },
+        "y": {
+          "field": "Population",
+          "type": "quantitative",
+          "title": "Population",
+          "axis": { "format": "," }
+        },
+        "color": {
+          "field": "Series",
+          "type": "nominal",
+          "title": "Prediction Series"
+        },
+        "tooltip": [
+          { "field": "Year", "type": "ordinal" },
+          { "field": "Series", "type": "nominal" },
+          { "field": "Population", "type": "quantitative" }
+        ]
+      }
+    };
+
+    // Visualization 4: Pie Chart
+    const specVis4 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "Money Spent Visiting The Great Ocean Road (Million)",
+      "data": {
+        "values": [
+          { "category": 2017, "value": 1.05 },
+          { "category": 2018, "value": 1.10 },
+          { "category": 2019, "value": 1.15 },
+          { "category": 2020, "value": 0.97 },
+          { "category": 2021, "value": 0.64 },
+          { "category": 2022, "value": 0.84 }
+        ]
+      },
+      "encoding": {
+        "theta": { "field": "value", "type": "quantitative", "stack": true },
+        "color": { "field": "category", "type": "nominal", "title": "Year" }
+      },
+      "layer": [
+        {
+          "mark": { "type": "arc", "innerRadius": 60 }
+        },
+        {
+          "mark": { "type": "arc", "outerRadius": 80 }
+        },
+        {
+          "mark": { "type": "text", "radius": 90 },
+          "encoding": {
+            "text": { "field": "category", "type": "nominal" }
+          }
+        }
+      ]
+    };
+
+    // Embed Visualization 1: Geographical Map
+    vegaEmbed('#vis1', specVis1, { actions: false })
+      .then(result => {
+        // You can access the Vega view instance as result.view
+      })
+      .catch(console.error);
+
+    // Embed Visualization 2: Population Bar Chart
+    vegaEmbed('#vis2', specVis2, { actions: false })
+      .then(result => {
+        // You can access the Vega view instance as result.view
+      })
+      .catch(console.error);
+
+    // Embed Visualization 3: Population Prediction Line Chart
+    vegaEmbed('#vis3', specVis3, { actions: false })
+      .then(result => {
+        // You can access the Vega view instance as result.view
+      })
+      .catch(console.error);
+
+    // Embed Visualization 4: Pie Chart
+    vegaEmbed('#vis4', specVis4, { actions: false })
+      .then(result => {
+        // You can access the Vega view instance as result.view
+      })
+      .catch(console.error);
+  </script>
+</body>
+
+</html>
