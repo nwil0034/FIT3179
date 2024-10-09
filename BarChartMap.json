@@ -1,0 +1,48 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Test Bar Chart - Population Each State",
+  "data": {
+    "values":[
+      {"States": "NSW", "Population": 8469.6, "color": "red"},
+      {"States": "VIC", "Population":6959.2, "color": "blue"},
+      {"States": "QLD", "Population":5560.5, "color": "green"},
+      {"States": "SA", "Population":1873.8, "color": "orange"},
+      {"States": "WA", "Population":2951.6, "color": "purple"},
+      {"States": "TAS", "Population":575.7, "color": "#e7ba52"},
+      {"States": "NT", "Population":254.3, "color": "gray"},
+      {"States": "ACT", "Population":472.8, "color": "#9467bd"},
+    ]
+  },
+  "params": [
+    {
+      "name": "highlight",
+      "select":{"type": "point", "on":"pointerover"}
+    },
+
+    {"name": "select", "select": "point"}
+  ],
+  "layer":[
+    {
+    "mark":"bar"
+  }, {
+    "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "bottom",
+      "dx": -11
+    },
+    "encoding": {
+      "text": {"field": "Population", "type": "quantitative"}
+    }
+  }
+  ],
+  "encoding": {
+    "x":{"field": "States", "type": "nominal", "axis": {"labelAngle":0}},
+    "y":{"field": "Population", "type": "quantitative"}
+  },
+  "color": {
+    "field":"States",
+    "type":"nominal"
+
+  }
+}
