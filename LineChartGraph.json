@@ -1,0 +1,58 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Series Prediction of Future Population In Australia",
+  "data": {
+    "values": [
+      {"Year": 2022, "High Series": 26013061, "Medium Series": 26013061, "Low Series": 26013061},
+      {"Year": 2023, "High Series": 26588782, "Medium Series": 26535367, "Low Series": 26482176},
+      {"Year": 2024, "High Series": 27095255, "Medium Series": 26971766, "Low Series": 26869019},
+
+      {"Year": 2025, "High Series": 27594464, "Medium Series": 27395011, "Low Series": 27235315},
+
+      {"Year": 2026, "High Series": 28086207, "Medium Series": 27805684, "Low Series": 27580551},
+
+      {"Year": 2027, "High Series": 28570009, "Medium Series": 28201094, "Low Series": 27902964},
+
+      {"Year": 2028, "High Series": 29042054, "Medium Series": 28581272, "Low Series": 28204391},
+
+      {"Year": 2029, "High Series": 29500502, "Medium Series": 28946317, "Low Series": 28488756},
+
+      {"Year": 2030, "High Series": 29944100, "Medium Series": 29294970, "Low Series": 28754774},
+
+      {"Year": 2031, "High Series": 30373698, "Medium Series": 29628141, "Low Series": 29003323},
+
+      {"Year": 2032, "High Series": 30788281, "Medium Series": 29944139, "Low Series": 29232681},
+
+      {"Year": 2033, "High Series": 31200900, "Medium Series": 30255082, "Low Series": 29455940},
+
+      {"Year": 2034, "High Series": 31611780, "Medium Series": 30561214, "Low Series": 29673319},
+
+      {"Year": 2035, "High Series": 32021148, "Medium Series": 30862815, "Low Series": 29885092}
+    ]
+  },
+  "repeat":{
+    "layer": ["High Series", "Medium Series", "Low Series"]
+  },
+  "spec":{
+    "mark":"line",
+    "encoding": {
+      "x":{
+        "bin":true,
+        "field":"Year",
+        "type": "nominal",
+        "title": "Year"
+      },
+      "y":{
+        "aggregate":"max",
+        "field":{"repeat": "layer"},
+        "type": "quantitative",
+        "title": "Population Series Prediction"
+      },
+      "color":{
+        "datum": {"repeat":"layer"},
+        "type": "nominal"
+      }
+    }
+  }
+
+}
