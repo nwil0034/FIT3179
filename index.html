@@ -86,7 +86,7 @@
       <div class="pure-u-1-2">
         <div class="description description-left">
           <h2>Population Bar Chart</h2>
-          <p>This bar chart shows the population of each state with interactive highlights.</p>
+          <p>This bar chart shows the population of each state with interactive highlights. It shows the labels of each state and the exact population in the year 2024</p>
         </div>
       </div>
       <div class="pure-u-1-2">
@@ -100,7 +100,7 @@
       <div class="pure-u-1-2">
         <div class="description description-left">
           <h2>Population Prediction Line Chart</h2>
-          <p>This line chart predicts future population trends in Australia.</p>
+          <p>This line chart predicts future population trends in Australia. It predicts the future population from people visiting all over the word in the upcoming years</p>
         </div>
       </div>
       <div class="pure-u-1-2">
@@ -114,7 +114,7 @@
       <div class="pure-u-1-2">
         <div class="description description-left">
           <h2>Great Ocean Road Expenditure Pie Chart</h2>
-          <p>This pie chart represents the money spent visiting the Great Ocean Road over the years.</p>
+          <p>This pie chart represents the money spent visiting the Great Ocean Road over the years to the nearest million dollars.</p>
         </div>
       </div>
       <div class="pure-u-1-2">
@@ -139,7 +139,7 @@
     // Visualization 1: Geographical Map
     const specVis1 = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title":"Cuurently Population Around The World",
+  "title":"Current Population Around The World",
   "width": 800,
   "height": 400,
   "projection": {"type":"equalEarth"},
@@ -248,37 +248,34 @@
 
     // Visualization 4: Pie Chart
     const specVis4 = {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "description": "Money Spent Visiting The Great Ocean Road (Million)",
-      "data": {
-        "values": [
-          { "category": 2017, "value": 1.05 },
-          { "category": 2018, "value": 1.10 },
-          { "category": 2019, "value": 1.15 },
-          { "category": 2020, "value": 0.97 },
-          { "category": 2021, "value": 0.64 },
-          { "category": 2022, "value": 0.84 }
-        ]
-      },
-      "encoding": {
-        "theta": { "field": "value", "type": "quantitative", "stack": true },
-        "color": { "field": "category", "type": "nominal", "title": "Year" }
-      },
-      "layer": [
-        {
-          "mark": { "type": "arc", "innerRadius": 60 }
-        },
-        {
-          "mark": { "type": "arc", "outerRadius": 80 }
-        },
-        {
-          "mark": { "type": "text", "radius": 90 },
-          "encoding": {
-            "text": { "field": "category", "type": "nominal" }
-          }
-        }
-      ]
-    };
+      {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Money Spent Visiting The Great Ocean Road (Million)",
+  "data":{
+    "values":[
+      {"category": 2017, "value": 1.05},
+      {"category": 2018, "value": 1.10},
+      {"category": 2019, "value": 1.15},
+      {"category": 2020, "value": 0.97},
+      {"category": 2021, "value": 0.64},
+      {"category": 2022, "value": 0.84}
+    ]
+  },
+  "mark": {"type": "arc", "innerRadius":60},
+  "encoding": {
+    "theta":{"field":"value", "type": "quantitative", "stack": true},
+    "color":{"field":"category", "type": "nominal"}
+  },
+  "layer": [{
+    "mark": {"type": "arc", "outerRadius": 80}
+  }, {
+    "mark": {"type":"text", "radius":90},
+    "encoding": {
+      "text":{"field": "category", "type": "nominal"}
+    }
+  }, 
+  ]
+};
 
     // Embed Visualization 1: Geographical Map
     vegaEmbed('#vis1', specVis1, { actions: false })
