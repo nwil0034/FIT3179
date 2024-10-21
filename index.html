@@ -245,7 +245,6 @@
 
     // Visualization 4: Pie Chart
     const specVis4 = {
-      {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Money Spent Visiting The Great Ocean Road (Million)",
   "data":{
@@ -261,7 +260,7 @@
   "mark": {"type": "arc", "innerRadius":60},
   "encoding": {
     "theta":{"field":"value", "type": "quantitative", "stack": true},
-    "color":{"field":"category", "type": "nominal"}
+    "color":{"field":"value", "type": "nominal"}
   },
   "layer": [{
     "mark": {"type": "arc", "outerRadius": 80}
